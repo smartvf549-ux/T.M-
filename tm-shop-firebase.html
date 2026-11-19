@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>T.M</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f6f0e8;--card:#fcf9f4;--tx:#3a2e27;--mut:#8a7a6d;--ac:#8a5a3c;--acs:#efe3d6;--bd:#e6dccf;--ok:#2f8a63;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Cairo',Tahoma,'Segoe UI',sans-serif;line-height:1.6;padding-bottom:92px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 8px}
+h1{font-size:1.25rem;margin:0;font-weight:700}
+.gear{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--bd);font-size:1.1rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--acs);border-radius:14px;padding:4px;margin:8px 0}
+.seg button{padding:8px;border-radius:11px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--card);color:var(--ac);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.hint{font-size:.85rem;color:var(--mut);margin:0 2px 10px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 16px;border-radius:999px;background:var(--card);border:1px solid var(--bd);font-weight:600}
+.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+#grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.ph{height:84px;border-radius:12px;background:var(--acs);display:grid;place-items:center;font-size:2rem;margin-bottom:8px}
+.ph{overflow:hidden}.ph img{width:100%;height:100%;object-fit:contain}
+.br{font-size:.78rem;color:var(--mut)}
+.card h3{font-size:.95rem;margin:0;font-weight:600}
+.pr{font-size:1rem;font-weight:700;color:var(--ac);margin-top:4px}
+.sm{font-size:.76rem;color:var(--mut);min-height:1.2em}
+.add{margin-top:8px;padding:8px;border-radius:11px;background:var(--ac);color:#fff;font-weight:600}
+.step{margin-top:8px;display:flex;align-items:center;justify-content:space-between;background:var(--acs);border-radius:11px;padding:3px}
+.step button{width:34px;height:34px;border-radius:9px;background:var(--card);font-weight:700;font-size:1.1rem}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:36px 0}
+#bar{position:fixed;inset:auto 0 0 0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 40%);pointer-events:none}
+#bar button{pointer-events:auto;display:flex;width:100%;max-width:608px;margin:0 auto;justify-content:space-between;padding:14px 18px;border-radius:16px;background:var(--ac);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+#bar button:disabled{background:var(--mut);opacity:.6;box-shadow:none}
+.sheet{position:fixed;inset:0;background:rgba(10,20,26,.5);display:none;align-items:flex-end;z-index:5}
+.sheet.open{display:flex}
+.panel{background:var(--bg);width:100%;max-width:640px;margin:0 auto;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow-y:auto}
+.ph2{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ph2 h2{margin:0;font-size:1.1rem}
+.x{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--bd)}
+.row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.row .nm{flex:1;font-weight:600;font-size:.92rem}
+.row .nm small{display:block;color:var(--mut);font-weight:400}
+.row .step{margin:0;min-width:104px}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin:12px 2px}
+.msg{font-size:.85rem;color:#b4572a;margin:6px 2px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{display:block;text-align:center;text-decoration:none;padding:12px;border-radius:13px;font-weight:700;background:var(--card);border:1px solid var(--bd);color:var(--tx)}
+.btn.p{background:var(--ok);border-color:var(--ok);color:#fff}
+.fld{display:grid;gap:8px;margin-bottom:18px}
+.fld h3{margin:0;font-size:.95rem}
+input,select{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--bd);background:var(--card)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.note{font-size:.78rem;color:var(--mut)}
+.foot{text-align:center;margin:28px 0}.foot button{color:var(--mut);font-size:.8rem;text-decoration:underline}
+.del{margin-top:6px;padding:5px;border-radius:9px;font-size:.78rem;color:#b4572a;border:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>📱 T.M</h1><button class="gear" data-act="admin" aria-label="إدارة المتجر">⚙️</button></header>
+  <div class="seg" id="seg"><button data-act="mode" data-v="r">مفرد</button><button data-act="mode" data-v="w">جملة</button></div>
+  <p class="hint" id="hint"></p>
+  <nav id="brands" aria-label="الماركات"></nav>
+  <main id="grid"></main>
+  <p class="foot"><button data-act="login" id="lg"></button></p>
+</div>
+<div id="bar"><button data-act="cart" id="cartBtn" disabled><span id="cc">السلة فارغة</span><span id="ct"></span></button></div>
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+
+<script>
+/* ===== إعدادات Firebase: عدّل هنا ===== */
+var FB_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
+var ADMIN_EMAIL="";
+/* ===== نهاية الإعدادات ===== */
+window.fbReady=new Promise(function(r){window._fbres=r});
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,onSnapshot,addDoc,setDoc,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+try{
+  if(!FB_CONFIG.apiKey)throw 0;
+  const app=initializeApp(FB_CONFIG),auth=getAuth(app),fs=getFirestore(app);
+  const wrap=d=>({id:d.id,exists:true,data:()=>d.data()});
+  window._fbres({
+    db:{
+      collection:n=>({onSnapshot:(f,e)=>onSnapshot(collection(fs,n),s=>f({docs:s.docs.map(wrap)}),e),add:x=>addDoc(collection(fs,n),x)}),
+      doc:p=>{const r=doc(fs,...p.split('/'));return{onSnapshot:(f,e)=>onSnapshot(r,s=>f({exists:s.exists(),data:()=>s.data()}),e),set:x=>setDoc(r,x),delete:()=>deleteDoc(r)}}
+    },
+    login:(e,p)=>signInWithEmailAndPassword(auth,e,p),
+    logout:()=>signOut(auth),
+    onAuth:f=>onAuthStateChanged(auth,f)
+  });
+}catch(e){window._fbres(null)}
+</script>
+<script>
+var KEY='phoneshop_v1';
+var D={brands:['Samsung','Tecno','Infinix','Apple'],products:[
+{id:1,b:'Samsung',n:'Galaxy A15 128GB',r:275000,w:255000,m:5},
+{id:2,b:'Samsung',n:'Galaxy A35 256GB',r:480000,w:450000,m:5},
+{id:3,b:'Tecno',n:'Spark 20 128GB',r:205000,w:185000,m:10},
+{id:4,b:'Tecno',n:'Camon 30 256GB',r:380000,w:350000,m:5},
+{id:5,b:'Infinix',n:'Hot 40 128GB',r:190000,w:172000,m:10},
+{id:6,b:'Infinix',n:'Note 40 256GB',r:315000,w:290000,m:5},
+{id:7,b:'Apple',n:'iPhone 13 128GB',r:700000,w:665000,m:3},
+{id:8,b:'Apple',n:'iPhone 15 128GB',r:1050000,w:1010000,m:3}]};
+var S={brands:[],products:[]},DB=null,ADMIN=false,ST='load';
+function emptyMsg(){return ST==='nodb'?'ما اشتغل الاتصال بقاعدة البيانات.':ST==='load'?'جاري التحميل...':ST==='err'||ST==='slow'?'ما كدرنا نوصل للبيانات، جرّب لاحقاً.':ADMIN?'ما كو أجهزة بعد. أضفها من الإدارة فوق.':'ما كو أجهزة بهذي الماركة هسه.'}
+(async function(){
+  try{
+        var F=await window.fbReady;window.FB=F;DB=F&&F.db;if(F)F.onAuth(function(u){ADMIN=!!(u&&u.email&&ADMIN_EMAIL&&u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase());render()});
+  }catch(e){DB=null}
+  if(!DB){ST='nodb';render();return}
+  var tm=setTimeout(function(){if(ST==='load'){ST='slow';render()}},10000);
+  var bad=function(){ST='err';render()};
+  DB.doc('settings/shop').onSnapshot(function(s){var d=s.exists?s.data():null;WA=d&&d.wa?String(d.wa):''},function(){});
+  DB.collection('brands').onSnapshot(function(s){
+    S.bd=s.docs.map(function(d){var x=d.data();return{id:d.id,n:x.n,o:x.o}}).sort(function(a,b){return a.o-b.o});S.brands=S.bd.map(function(x){return x.n});
+    ST='ok';clearTimeout(tm);render()},bad);
+  DB.collection('products').onSnapshot(function(s){
+    S.products=s.docs.map(function(d){return d.data()}).sort(function(a,b){return a.id-b.id});render()},bad);
+})();
+var mode='r',fil=null,cart={};
+var CODE='2005',UNLOCK=false,WA='';
+try{UNLOCK=localStorage.getItem('ps_u')==='1'}catch(e){}
+function lockView(){sheet('<div class="ph2"><h2>أسعار الجملة</h2><button class="x" data-act="close" aria-label="إغلاق">✕</button></div><div class="fld"><p class="note">هذا القسم لتجار الجملة. اكتب الكود الخاص بك.</p><input id="uc" type="password" inputmode="numeric" placeholder="الكود" autocomplete="off"><button class="btn p" data-act="unlock">فتح</button><p class="msg" id="um"></p></div>')}
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function money(n){return Number(n).toLocaleString('en-US')+' د.ع'}
+function P(id){return S.products.filter(function(p){return p.id===id})[0]}
+function price(p){return mode==='w'?p.w:p.r}
+function min(p){return mode==='w'?(p.m||1):1}
+
+function render(){
+  document.querySelector('.gear').style.display=ADMIN?'':'none';
+  $('lg').textContent=ADMIN?'تسجيل خروج':'دخول المدير';
+  document.querySelectorAll('#seg button').forEach(function(b){b.classList.toggle('on',b.dataset.v===mode)});
+  $('hint').textContent=mode==='w'?'أسعار الجملة، مع حد أدنى للكمية لكل جهاز.':'أسعار المفرد، تشتري قطعة أو أكثر.';
+  var h='<button class="chip'+(fil===null?' on':'')+'" data-act="brand" data-v="">الكل</button>';
+  S.brands.forEach(function(b){h+='<button class="chip'+(fil===b?' on':'')+'" data-act="brand" data-v="'+esc(b)+'">'+esc(b)+'</button>'});
+  $('brands').innerHTML=h;
+  var list=S.products.filter(function(p){return fil===null||p.b===fil});
+  var g='';
+  list.forEach(function(p){
+    var q=cart[p.id]||0;
+    g+='<div class="card"><div class="ph">'+(p.i?'<img alt="" src="'+p.i+'">':'📱')+'</div><span class="br">'+esc(p.b)+'</span><h3>'+esc(p.n)+'</h3><div class="pr">'+money(price(p))+'</div>'
+     +'<div class="sm">'+(mode==='w'&&min(p)>1?'الحد الأدنى '+min(p)+' قطع':'')+'</div>'
+     +(q?'<div class="step"><button data-act="inc" data-v="'+p.id+'" aria-label="زيادة">+</button><b>'+q+'</b><button data-act="dec" data-v="'+p.id+'" aria-label="نقصان">−</button></div>'
+        :'<button class="add" data-act="add" data-v="'+p.id+'">أضف للسلة</button>')+(ADMIN?'<button class="del" data-act="edit" data-v="'+p.id+'">تعديل</button><button class="del" data-act="del" data-v="'+p.id+'">حذف</button>':'')+'</div>';
+  });
+  $('grid').innerHTML=g||'<div class="empty">'+emptyMsg()+'</div>'||'<div class="empty">ما كو أجهزة بهذي الماركة بعد. أضفها من ⚙️</div>';
+  var n=0,t=0;
+  Object.keys(cart).forEach(function(k){var p=P(+k);if(p){n+=cart[k];t+=cart[k]*price(p)}});
+  $('cartBtn').disabled=!n;
+  $('cc').textContent=n?'عرض السلة ('+n+')':'السلة فارغة';
+  $('ct').textContent=n?money(t):'';
+}
+
+function sheet(html){$('panel').innerHTML=html;$('sheet').classList.add('open')}
+function closeSheet(){$('sheet').classList.remove('open')}
+
+function cartView(){
+  var h='<div class="ph2"><h2>السلة · '+(mode==='w'?'جملة':'مفرد')+'</h2><button class="x" data-act="close" aria-label="إغلاق">✕</button></div>';
+  var t=0,lines=[],bad=false;
+  Object.keys(cart).forEach(function(k){
+    var p=P(+k);if(!p)return;var q=cart[k],s=q*price(p);t+=s;
+    if(q<min(p))bad=true;
+    lines.push('• '+p.b+' '+p.n+' × '+q+' = '+money(s));
+    h+='<div class="row"><div class="nm">'+esc(p.n)+'<small>'+esc(p.b)+' · '+money(price(p))+'</small></div>'
+     +'<div class="step"><button data-act="cinc" data-v="'+p.id+'">+</button><b>'+q+'</b><button data-act="cdec" data-v="'+p.id+'">−</button></div></div>';
+  });
+  if(!lines.length){h+='<p class="note">السلة فارغة.</p>';sheet(h);return}
+  var txt='طلب جديد ('+(mode==='w'?'جملة':'مفرد')+'):\n'+lines.join('\n')+'\nالمجموع: '+money(t);
+  window._order=txt;
+  h+='<div class="tot"><span>المجموع</span><span>'+money(t)+'</span></div>'
+   +'<div class="btns"><a class="btn p" target="_blank" rel="noopener" href="https://wa.me/'+WA+'?text='+encodeURIComponent(txt)+'">إرسال واتساب</a><button class="btn" data-act="copy">نسخ الطلب</button></div>'
+   +'<p class="note" id="cm"></p>';
+  sheet(h);
+}
+
+function lockLogin(){sheet('<div class="ph2"><h2>دخول المدير</h2><button class="x" data-act="close" aria-label="إغلاق">✕</button></div><div class="fld"><input id="le" type="email" placeholder="الإيميل" autocomplete="username"><input id="lp" type="password" placeholder="كلمة المرور" autocomplete="current-password"><button class="btn p" data-act="doLogin">دخول</button><p class="msg" id="lm"></p></div>')}
+var EDIT=null;
+function editView(id){var p=P(id);if(p)adminView(p)}
+function adminView(ep){
+  adminView0();
+  var bl='<div class="fld"><h3>الماركات الحالية</h3>';
+  (S.bd||[]).forEach(function(b){bl+='<div class="row"><div class="nm">'+esc(b.n)+'</div><button class="del" data-act="delBrand" data-v="'+esc(b.id)+'">حذف</button></div>'});
+  $('panel').insertAdjacentHTML('beforeend',bl+'</div>');
+  if(!ep){EDIT=null;return}
+  EDIT=ep.id;
+  $('pb').value=ep.b;$('pn').value=ep.n;$('pr').value=ep.r;$('pw').value=ep.w;$('pm').value=ep.m||1;
+  document.querySelector('[data-act="addProd"]').textContent='حفظ التعديل';
+  $('pn').scrollIntoView({block:'center'});
+}
+function adminView0(){
+  var h='<div class="ph2"><h2>إدارة المتجر</h2><button class="x" data-act="close" aria-label="إغلاق">✕</button></div>'
+   +'<div class="fld"><h3>رقم واتساب للطلبات</h3><input id="wa" type="tel" inputmode="tel" placeholder="مثال: 07701234567" value="'+esc(WA.indexOf('964')===0?'0'+WA.slice(3):WA)+'"><button class="btn p" data-act="saveWA">حفظ الرقم</button><p class="msg" id="wm"></p></div>'
+   +'<div class="fld"><h3>إضافة ماركة</h3><input id="nb" placeholder="مثال: Xiaomi"><button class="btn p" data-act="addBrand">إضافة الماركة</button></div>'
+   +'<div class="fld"><h3>إضافة جهاز</h3><select id="pb">';
+  S.brands.forEach(function(b){h+='<option>'+esc(b)+'</option>'});
+  h+='</select><input id="pn" placeholder="اسم الجهاز (مثال: Redmi Note 13)"><div class="two"><input id="pr" type="number" inputmode="decimal" placeholder="سعر المفرد (د.ع)"><input id="pw" type="number" inputmode="decimal" placeholder="سعر الجملة (د.ع)"></div>'
+   +'<input id="pm" type="number" inputmode="numeric" placeholder="الحد الأدنى للجملة (قطع)"><label class="note" for="pi">صورة الجهاز (اختياري)</label><input id="pi" type="file" accept="image/*"><button class="btn p" data-act="addProd">إضافة الجهاز</button><p class="msg" id="am"></p></div>'
+   +'<p class="note">ملاحظة: كل شي تضيفه أو تعدّله ينحفظ ويبين للزبائن. للتعديل اضغط تعديل على بطاقة الجهاز.</p>';
+  sheet(h);
+}
+
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]');
+  if(!el){if(e.target===$('sheet'))closeSheet();return}
+  var a=el.dataset.act,v=el.dataset.v,id=+v,p;
+  if(a==='mode'){if(v==='w'&&!UNLOCK){lockView();return}mode=v;Object.keys(cart).forEach(function(k){var q=P(+k);if(q&&cart[k]<min(q))cart[k]=min(q)});render()}
+  else if(a==='brand'){fil=v||null;render()}
+  else if(a==='add'){p=P(id);cart[id]=min(p);render()}
+  else if(a==='inc'||a==='cinc'){cart[id]=(cart[id]||0)+1;render();if(a==='cinc')cartView()}
+  else if(a==='dec'||a==='cdec'){p=P(id);cart[id]=(cart[id]||0)-1;if(cart[id]<min(p)&&mode==='w'||cart[id]<=0)delete cart[id];render();if(a==='cdec')cartView()}
+  else if(a==='unlock'){
+    if($('uc').value.trim()===CODE){UNLOCK=true;try{localStorage.setItem('ps_u','1')}catch(err){}closeSheet();mode='w';Object.keys(cart).forEach(function(k){var q=P(+k);if(q&&cart[k]<min(q))cart[k]=min(q)});render()}
+    else $('um').textContent='الكود غير صحيح.';
+  }
+  else if(a==='login'){if(ADMIN){FB.logout()}else lockLogin()}
+  else if(a==='doLogin'){
+    if(!window.FB)return;
+    FB.login($('le').value.trim(),$('lp').value).then(function(){closeSheet()},function(){$('lm').textContent='الإيميل أو كلمة المرور غير صحيحة.'});
+  }
+  else if(a==='edit'){editView(id)}
+  else if(a==='delBrand'){
+    if(!DB)return;
+    if(el.dataset.c){DB.doc('brands/'+v).delete().then(function(){fil=null;setTimeout(function(){render();adminView()},400)})}else{el.dataset.c='1';el.textContent='اضغط للتأكيد'}
+  }
+  else if(a==='saveWA'){
+    if(!DB)return;
+    var d=$('wa').value.replace(/\D/g,'');
+    if(d.indexOf('00')===0)d=d.slice(2);
+    if(d.charAt(0)==='0')d='964'+d.slice(1);else if(d.charAt(0)==='7')d='964'+d;
+    if(d.length<11||d.length>15){$('wm').textContent='الرقم غير صحيح، اكتبه مثل 07701234567.';return}
+    DB.doc('settings/shop').set({wa:d}).then(function(){WA=d;$('wm').textContent='انحفظ الرقم.'},function(){$('wm').textContent='ما انحفظ، جرّب ثانية.'});
+  }
+  else if(a==='del'){
+    if(!DB)return;
+    if(el.dataset.c){DB.doc('products/p'+id).delete();delete cart[id]}else{el.dataset.c='1';el.textContent='اضغط للتأكيد'}
+  }
+  else if(a==='cart')cartView();
+  else if(a==='admin')adminView();
+  else if(a==='close')closeSheet();
+  else if(a==='copy'){
+    var done=function(){$('cm').textContent='تم نسخ الطلب.'};
+    try{navigator.clipboard.writeText(window._order).then(done,function(){$('cm').textContent='ما اننسخ، انسخه يدوياً.'})}catch(err){$('cm').textContent='ما اننسخ، استخدم زر واتساب.'}
+  }
+  else if(a==='addBrand'){
+    var nb=$('nb').value.trim();
+    if(!nb)return;
+    if(S.brands.some(function(b){return b.toLowerCase()===nb.toLowerCase()})){fil=S.brands.filter(function(b){return b.toLowerCase()===nb.toLowerCase()})[0];render();closeSheet();return}
+    if(!DB)return;
+    DB.collection('brands').add({n:nb,o:Date.now()}).then(function(){fil=nb;render();adminView()},function(){$('nb').value='';$('nb').placeholder='ما انحفظت، جرّب ثانية'});
+  }
+  else if(a==='addProd'){
+    var n=$('pn').value.trim(),r=parseFloat($('pr').value),w=parseFloat($('pw').value),m=parseInt($('pm').value,10)||1;
+    if(!n||!(r>0)||!(w>0)){$('am').textContent='اكتب اسم الجهاز وسعر المفرد وسعر الجملة.';return}
+    var nid=EDIT||Date.now();
+    var br=$('pb').value,f=$('pi').files[0];
+    var fin=function(img){if(!DB)return;DB.doc('products/p'+nid).set({id:nid,b:br,n:n,r:r,w:w,m:m,i:img||(EDIT&&P(EDIT)?P(EDIT).i:'')}).then(function(){EDIT=null;fil=br;render();closeSheet()},function(){$('am').textContent='ما انحفض الجهاز، جرّب ثانية.'})};
+    if(!f){fin('');return}
+    var rd=new FileReader();
+    rd.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);fin(c.toDataURL('image/jpeg',0.8))};im.onerror=function(){$('am').textContent='ما كدرت أقرأ الصورة.'};im.src=rd.result};
+    rd.onerror=function(){$('am').textContent='ما كدرت أقرأ الصورة.'};
+    rd.readAsDataURL(f);
+  }
+});
+render();
+</script>
+</body>
+</html>
